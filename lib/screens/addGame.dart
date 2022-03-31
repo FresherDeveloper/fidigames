@@ -33,25 +33,17 @@ class AddGame extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    SizedBox(
-                      height: 16,
-                      width: 9,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.arrow_back_ios_new,
-                          color: Color(0xffFFFFFF),
-                        ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new,
+                        color: Color(0xffFFFFFF),
                       ),
                     ),
                     const SizedBox(
                       width: 15.5,
                     ),
-                    const SizedBox(
-                      height: 30,
-                      width: 127,
-                      child: TitleText(title: "Add a Game"),
-                    ),
+                    const TitleText(title: "Add a Game"),
                   ],
                 ),
                 const SizedBox(
