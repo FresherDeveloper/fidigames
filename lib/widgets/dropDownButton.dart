@@ -15,15 +15,16 @@ class _DropDownButtonState extends State<DropDownButton> {
   Widget build(BuildContext context) {
     return Container(
       width: 369,
-      height: 48,
+      // height: 48,
       padding: const EdgeInsets.fromLTRB(13, 8, 13, 6),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: const Color(0xff292333),
       ),
       child: DropdownButton(
+        underline: Container(),
+        dropdownColor: const Color(0xff292333),
         hint: const HintText(hintText: "Choose the category of game"),
-        menuMaxHeight: 48,
         isExpanded: true,
         icon: const SizedBox(
           height: 6,
@@ -42,7 +43,14 @@ class _DropDownButtonState extends State<DropDownButton> {
         items: items.map((valueItem) {
           return DropdownMenuItem(
             value: valueItem,
-            child: Text(valueItem),
+            child: Text(
+              valueItem,
+              style: TextStyle(
+                color: Color(0xffFEFEFE),
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+              ),
+            ),
           );
         }).toList(),
       ),

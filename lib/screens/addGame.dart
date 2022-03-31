@@ -100,7 +100,7 @@ class AddGame extends StatelessWidget {
                   height: 49,
                 ),
                 upperText(textFieldName: "Category"),
-                sizedBox,
+               
                 DropDownButton(),
                 const SizedBox(
                   height: 41,

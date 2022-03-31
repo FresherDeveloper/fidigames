@@ -94,8 +94,9 @@ class GameList extends StatelessWidget {
             child: CustomedElevatedButton(
               buttonText: "Add Game",
               buttonAction: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const GameCard()));
+                print("button is tapped");
+                // Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => const GameCard()));
               },
             ),
           ),

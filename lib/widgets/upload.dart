@@ -9,11 +9,11 @@ class Upload extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
+        color: const Color(0xff292333),
       ),
       child: Row(
         children: [
           IconButton(
-            // color: const Color(0xff200E32),
             onPressed: () {},
             icon: const Icon(
               Icons.drive_folder_upload_outlined,
