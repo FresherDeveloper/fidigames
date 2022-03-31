@@ -7,13 +7,15 @@ class Upload extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 48,
+      width: 369,
       decoration: BoxDecoration(
+        color: const Color(0xff292333),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         children: [
           IconButton(
-            // color: const Color(0xff200E32),
             onPressed: () {},
             icon: const Icon(
               Icons.drive_folder_upload_outlined,
