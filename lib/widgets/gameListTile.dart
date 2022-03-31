@@ -11,7 +11,7 @@ class GameListTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 5, bottom: 10),
       decoration: BoxDecoration(
-        color: Colors.grey.shade800,
+        color: Color(0xff292333),
         borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -20,22 +20,24 @@ class GameListTile extends StatelessWidget {
           ListTile(
             leading: Image.asset(
               image,
-              width: 100,
-              height: 300,
               fit: BoxFit.cover,
             ),
             title: Text(
               text,
               style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
+                fontFamily: "poppins",
+                color: Color(0xffFFFFFF),
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
               ),
             ),
             subtitle: const Text(
               "Join your crewmates in a multiplayer game of teamwork",
               style: TextStyle(
-                color: Colors.white,
+                color: Color(0xffFFFFFF),
+                fontFamily: "poppins",
+                fontSize: 10,
+                fontWeight: FontWeight.w300,
               ),
             ),
           ),
@@ -46,7 +48,7 @@ class GameListTile extends StatelessWidget {
     );
   }
 
-  Row BottomRow({bool isSelected = false}) {
+  Row BottomRow({bool isSelected = true}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -54,10 +56,13 @@ class GameListTile extends StatelessWidget {
           child: Row(
             children: [
               isSelected
-                  ? const Icon(Icons.favorite, color: Colors.amber)
+                  ? const Icon(
+                      Icons.favorite,
+                      color: Color(0xffFCBC3C),
+                    )
                   : const Icon(
                       Icons.favorite_border,
-                      color: Colors.white,
+                      color: Color(0xffFFFFFF),
                     ),
               const SizedBox(
                 width: 8,
@@ -65,7 +70,10 @@ class GameListTile extends StatelessWidget {
               const Text(
                 "240",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Color(0xffFFFFFF),
+                  fontFamily: "poppins",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w300,
                 ),
               ),
             ],
@@ -76,12 +84,20 @@ class GameListTile extends StatelessWidget {
           icon: const Icon(
             Icons.play_arrow,
           ),
-          label: const Text("Play"),
+          label: const Text(
+            "Play",
+            style: TextStyle(
+              color: Color(0xffFFFFFF),
+              fontFamily: "poppins",
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
           style: ElevatedButton.styleFrom(
             maximumSize: const Size(150, 40),
             primary: Colors.black,
             shape: const StadiumBorder(
-              side: BorderSide(color: Colors.amber, width: 2),
+              side: BorderSide(color: Color(0xffFCBC3C), width: 1),
             ),
           ),
         ),
@@ -90,7 +106,7 @@ class GameListTile extends StatelessWidget {
             children: const [
               Icon(
                 Icons.people,
-                color: Colors.white,
+                color: Color(0xffFFFFFF),
               ),
               SizedBox(
                 width: 8,
@@ -98,7 +114,10 @@ class GameListTile extends StatelessWidget {
               Text(
                 "4 - 6 Players",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Color(0xffFFFFFF),
+                  fontFamily: "poppins",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w300,
                 ),
               ),
             ],

@@ -10,7 +10,7 @@ class Game extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.grey.shade800,
+        color: const Color(0xff292333),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -26,9 +26,10 @@ class Game extends StatelessWidget {
             title: Text(
               tiletext,
               style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
+                fontFamily: "poppins",
+                color: Color(0xffFFFFFF),
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
               ),
             ),
             subtitle: Column(
@@ -36,7 +37,10 @@ class Game extends StatelessWidget {
                 const Text(
                   "Join your crewmates in a multiplayer game of teamwork",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color(0xffFFFFFF),
+                    fontFamily: "poppins",
+                    fontSize: 10,
+                    fontWeight: FontWeight.w300,
                   ),
                 ),
                 const SizedBox(),
@@ -45,7 +49,7 @@ class Game extends StatelessWidget {
                     children: const [
                       Icon(
                         Icons.people,
-                        color: Colors.white,
+                        color: Color(0xffFFFFFF),
                       ),
                       SizedBox(
                         width: 8,
@@ -53,7 +57,7 @@ class Game extends StatelessWidget {
                       Text(
                         "4 - 6 Players",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Color(0xffFFFFFF),
                         ),
                       ),
                     ],
@@ -80,17 +84,22 @@ class Game extends StatelessWidget {
     required String buttonText,
     bool isColored = false,
   }) {
-    return ElevatedButton.icon(
+    return ElevatedButton(
       onPressed: () {},
-      icon: const Icon(
-        Icons.play_arrow,
+      child: Text(
+        buttonText,
+        style: const TextStyle(
+          fontFamily: "poppins",
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+        ),
       ),
-      label: Text(buttonText),
       style: ElevatedButton.styleFrom(
         maximumSize: const Size(150, 40),
-        primary: isColored ? Colors.amber : Colors.black,
+        onPrimary: isColored ? Color(0xffFFFFFF) : Color(0xffFCBC3C),
+        primary: isColored ? const Color(0xffFCBC3C) : const Color(0xff292333),
         shape: const StadiumBorder(
-          side: BorderSide(color: Colors.amber, width: 2),
+          side: BorderSide(color: Color(0xffFCBC3C), width: 2),
         ),
       ),
     );

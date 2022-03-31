@@ -1,14 +1,16 @@
-import 'package:fidigames/screens/screen4.dart';
+import 'package:fidigames/screens/gameCard.dart';
+import 'package:fidigames/widgets/customedElevatedButton.dart';
 import 'package:fidigames/widgets/gameListTile.dart';
+import 'package:fidigames/widgets/titleText.dart';
 import 'package:flutter/material.dart';
 
-class ThirdScreen extends StatelessWidget {
-  const ThirdScreen({Key? key}) : super(key: key);
+class GameList extends StatelessWidget {
+  const GameList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xff1A121E),
       body: Stack(
         children: [
           Container(
@@ -16,35 +18,42 @@ class ThirdScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: const Text(
-                    "Fidigames",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                const TitleText(title: "Fidigames"),
+                const SizedBox(
+                  height: 16,
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Row(
-                    children: const [
-                      Text("Catogories"),
-                      Icon(Icons.arrow_drop_down),
-                    ],
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(200, 40),
-                    primary: Colors.black,
-                    shape: const StadiumBorder(
-                      side: BorderSide(color: Colors.white),
+                Container(
+                  height: 32,
+                  width: 135,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Row(
+                      children: const [
+                        Text(
+                          "Catogories",
+                          style: TextStyle(
+                            color: Color(0xffFEFEFE),
+                            fontFamily: "poppins",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12,
+                          ),
+                        ),
+                        Icon(Icons.arrow_drop_down),
+                      ],
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(135, 32),
+                      primary: const Color(0xff1A121E),
+                      shape: const StadiumBorder(
+                        side: BorderSide(
+                          color: Color(0xffBAB8BB),
+                        ),
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(
-                  height: 5,
+                  height: 28,
                 ),
                 Expanded(
                   child: SingleChildScrollView(
@@ -82,24 +91,12 @@ class ThirdScreen extends StatelessWidget {
             bottom: 125,
             left: 90,
             right: 90,
-            child: ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const FourthScreen()));
+            child: CustomedElevatedButton(
+              buttonText: "Add Game",
+              buttonAction: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const GameCard()));
               },
-              icon: const Icon(
-                Icons.add,
-              ),
-              label: const Text("Add Game"),
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(200, 50),
-                primary: Colors.amber,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
             ),
           ),
         ],
