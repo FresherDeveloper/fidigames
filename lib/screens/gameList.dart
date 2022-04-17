@@ -13,7 +13,7 @@ class GameList extends StatelessWidget {
   final List<GameDetail> gameList = [
     GameDetail(
       title: 'Amoung Us',
-      description: 'join your crewmates in a multiplayer game of teamwork.',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
       image: 'assets/images/img1.png',
       isFavroite: true,
       favCount: 13,
@@ -117,13 +117,6 @@ class GameList extends StatelessWidget {
             right: 106,
             child: Center(
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(200, 48),
-                  primary: const Color(0xffFCBC3C),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
                 onPressed: () {
                   print("button is tapped");
                 },

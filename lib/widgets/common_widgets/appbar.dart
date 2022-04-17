@@ -15,8 +15,8 @@ AppBar getAppbar(
             icon: SvgPicture.asset(
               "assets/icons/arrow_left.svg",
               fit: BoxFit.contain,
-              height: 24,
-              width: 24,
+              height: 16,
+              width: 9,
             ),
             onPressed: onBackPress,
           )

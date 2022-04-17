@@ -41,10 +41,11 @@ ThemeData getApplicationTheme() {
     //elevated button theme
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        textStyle: getRegularStyle(fontColor: ColorManager.white),
-        primary: ColorManager.primary,
+        minimumSize: const Size(200, 48),
+        primary: const Color(0xffFCBC3C),
+        onPrimary: const Color(0xff000000),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSize.s12),
+          borderRadius: BorderRadius.circular(16),
         ),
       ),
     ),

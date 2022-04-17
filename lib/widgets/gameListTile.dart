@@ -1,5 +1,6 @@
 import 'package:fidigames/models/gameDetail.dart';
 import 'package:fidigames/resources/text_styles_manager.dart';
+import 'package:fidigames/resources/values_manager.dart';
 import 'package:fidigames/widgets/common_widgets/space.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,50 +17,50 @@ class GameListTile extends StatelessWidget {
         color: Color(0xff292333),
         borderRadius: BorderRadius.circular(10),
       ),
-      padding: const EdgeInsets.only(top: 22, left: 5),
+      padding: const EdgeInsets.symmetric(
+          vertical: AppPadding.p22, horizontal: AppPadding.p16),
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: 120,
-                    width: 100,
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          gameDetail.image,
-                          height: 72,
-                          width: 72,
-                          fit: BoxFit.cover,
-                        ),
-                        verticalSpace(9),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            gameDetail.isFavroite
-                                ? SvgPicture.asset(
-                                    "assets/icons/favourite_color.svg",
-                                  )
-                                : SvgPicture.asset(
-                                    "assets/icons/favourite_outlined.svg",
-                                  ),
-                            horizontalSpace(13),
-                            Text(
-                              "240",
-                              style: getLightStyle(),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                  Column(
+                    children: [
+                      Image.asset(
+                        gameDetail.image,
+                        height: 72,
+                        width: 72,
+                        fit: BoxFit.cover,
+                      ),
+                      verticalSpace(9),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          gameDetail.isFavroite
+                              ? SvgPicture.asset(
+                                  "assets/icons/favourite_color.svg",
+                                )
+                              : SvgPicture.asset(
+                                  "assets/icons/favourite_outlined.svg",
+                                ),
+                          horizontalSpace(13),
+                          Text(
+                            "240",
+                            style: getLightStyle(),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
+              horizontalSpace(AppSpace.sp22),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -70,7 +71,8 @@ class GameListTile extends StatelessWidget {
                   ),
                   verticalSpace(2),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.6,
+                    height: 26,
+                    width: MediaQuery.of(context).size.width - 175,
                     child: Text(gameDetail.description,
                         maxLines: 2,
                         style: getLightStyle(
@@ -89,9 +91,9 @@ class GameListTile extends StatelessWidget {
     );
   }
 
-  Row bottomRow({bool isSelected = true}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+  Widget bottomRow({bool isSelected = true}) {
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         ElevatedButton.icon(
           onPressed: () {},
@@ -100,7 +102,7 @@ class GameListTile extends StatelessWidget {
           ),
           label: Text("Play", style: getSemiBoldStyle()),
           style: ElevatedButton.styleFrom(
-            maximumSize: const Size(150, 40),
+            minimumSize: const Size(100, 40),
             primary: const Color(0xff0000004D),
             shape: const StadiumBorder(
               side: BorderSide(color: Color(0xffFCBC3C), width: 1),

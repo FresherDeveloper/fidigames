@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:fidigames/resources/strings_manager.dart';
 import 'package:fidigames/resources/text_styles_manager.dart';
+import 'package:fidigames/resources/values_manager.dart';
 import 'package:fidigames/screens/gameList.dart';
 import 'package:fidigames/widgets/common_widgets/appbar.dart';
 import 'package:fidigames/widgets/common_widgets/space.dart';
@@ -27,9 +28,9 @@ class AddGame extends StatelessWidget {
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(
-              top: 16,
-              left: 24,
-              right: 21,
+              top: AppPadding.p16,
+              left: AppPadding.p24,
+              right: AppPadding.p24,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,7 +40,7 @@ class AddGame extends StatelessWidget {
                   "Name of the Game",
                   style: getRegularStyle(),
                 ),
-                verticalSpace(5),
+                verticalSpace(AppSpace.sp5),
                 CustomedTextField(text: "Enter Game Name"),
                 verticalSpace(27),
                 upperText(textFieldName: "Description"),
