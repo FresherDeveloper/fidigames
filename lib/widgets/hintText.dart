@@ -1,3 +1,4 @@
+import 'package:fidigames/resources/text_styles_manager.dart';
 import 'package:flutter/material.dart';
 
 class HintText extends StatelessWidget {
@@ -8,12 +9,7 @@ class HintText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       hintText,
-      style: const TextStyle(
-        color: Color(0xffFEFEFE),
-        fontFamily: "poppins",
-        fontWeight: FontWeight.w400,
-        fontSize: 14,
-      ),
+      style: getRegularStyle(fontSize: 14),
     );
   }
 }

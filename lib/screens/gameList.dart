@@ -1,48 +1,93 @@
-import 'package:fidigames/screens/gameCard.dart';
-import 'package:fidigames/widgets/customedElevatedButton.dart';
+import 'package:fidigames/resources/strings_manager.dart';
+import 'package:fidigames/resources/text_styles_manager.dart';
+import 'package:fidigames/widgets/common_widgets/appbar.dart';
+import 'package:fidigames/widgets/common_widgets/space.dart';
 import 'package:fidigames/widgets/gameListTile.dart';
-import 'package:fidigames/widgets/titleText.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../models/gameDetail.dart';
 
 class GameList extends StatelessWidget {
-  const GameList({Key? key}) : super(key: key);
-
+  final List<GameDetail> gameList = [
+    GameDetail(
+      title: 'Amoung Us',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+      image: 'assets/images/img1.png',
+      isFavroite: true,
+      favCount: 13,
+      minCount: 13,
+      maxCount: 345,
+    ),
+    GameDetail(
+      title: 'Mini Militia',
+      description: 'join your crewmates in a multiplayer game of teamwork.',
+      image: 'assets/images/img2.png',
+      isFavroite: false,
+      favCount: 13,
+      minCount: 13,
+      maxCount: 345,
+    ),
+    GameDetail(
+      title: 'Skribbl.io',
+      description: 'join your crewmates in a multiplayer game of teamwork.',
+      image: 'assets/images/img3.png',
+      isFavroite: false,
+      favCount: 13,
+      minCount: 13,
+      maxCount: 345,
+    ),
+    GameDetail(
+      title: 'Skribbl.io',
+      description: 'join your crewmates in a multiplayer game of teamwork.',
+      image: 'assets/images/img3.png',
+      isFavroite: false,
+      favCount: 13,
+      minCount: 13,
+      maxCount: 345,
+    ),
+    GameDetail(
+      title: 'Skribbl.io',
+      description: 'join your crewmates in a multiplayer game of teamwork.',
+      image: 'assets/images/img3.png',
+      isFavroite: false,
+      favCount: 13,
+      minCount: 13,
+      maxCount: 345,
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: getAppbar(title: AppStrings.fidigames,),
       backgroundColor: const Color(0xff1A121E),
       body: Stack(
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 50),
+            padding: const EdgeInsets.only(left: 24, right: 21),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const TitleText(title: "Fidigames"),
-                const SizedBox(
-                  height: 16,
-                ),
-                Container(
+                SizedBox(
                   height: 32,
                   width: 135,
                   child: ElevatedButton(
                     onPressed: () {},
                     child: Row(
-                      children: const [
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
                         Text(
                           "Catogories",
-                          style: TextStyle(
-                            color: Color(0xffFEFEFE),
-                            fontFamily: "poppins",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12,
-                          ),
+                          style: getMediumStyle(),
                         ),
-                        Icon(Icons.arrow_drop_down),
+                        SvgPicture.asset(
+                          "assets/icons/arrow_down2.svg",
+                        ),
                       ],
                     ),
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(135, 32),
+                      minimumSize: const Size(135, 32),
                       primary: const Color(0xff1A121E),
                       shape: const StadiumBorder(
                         side: BorderSide(
@@ -52,51 +97,53 @@ class GameList extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 28,
-                ),
+                verticalSpace(28),
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        GameListTile(
-                          text: "Among Us",
-                          image: "assets/images/img1.jpg",
-                          isFavourite: true,
-                        ),
-                        GameListTile(
-                          text: "Mini Militia",
-                          image: "assets/images/img2.jpg",
-                        ),
-                        GameListTile(
-                          text: "Skribbl.io",
-                          image: "assets/images/img3.jpg",
-                        ),
-                        GameListTile(
-                          text: "Skribbl.io",
-                          image: "assets/images/img3.jpg",
-                        ),
-                        GameListTile(
-                          text: "Skribbl.io",
-                          image: "assets/images/img3.jpg",
-                        ),
-                      ],
-                    ),
+                  child: ListView.builder( 
+                    itemBuilder: (ctx, index) {
+                  return GameListTile(
+                    gameDetail: gameList[index],
+                  );
+                    },
+                    itemCount: gameList.length,
                   ),
                 ),
               ],
             ),
           ),
           Positioned(
-            bottom: 125,
-            left: 90,
-            right: 90,
-            child: CustomedElevatedButton(
-              buttonText: "Add Game",
-              buttonAction: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const GameCard()));
-              },
+            bottom: 49,
+            left: 108,
+            right: 106,
+            child: Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(200, 48),
+                  primary: const Color(0xffFCBC3C),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                onPressed: () {
+                  print("button is tapped");
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/icons/plus.svg",
+                    ),
+                    Text(
+                      "Add Game",
+                      style: getSemiBoldStyle(
+                        fontSize: 14,
+                        fontColor: const Color(0xff000000),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ],

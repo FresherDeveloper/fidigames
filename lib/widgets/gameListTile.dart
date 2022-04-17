@@ -1,10 +1,12 @@
+import 'package:fidigames/models/gameDetail.dart';
+import 'package:fidigames/resources/text_styles_manager.dart';
+import 'package:fidigames/widgets/common_widgets/space.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class GameListTile extends StatelessWidget {
-  final String image;
-  final bool? isFavourite;
-  final String text;
-  GameListTile({required this.image, this.isFavourite, required this.text});
+  final GameDetail gameDetail;
+  GameListTile({required this.gameDetail});
 
   @override
   Widget build(BuildContext context) {
@@ -14,114 +16,109 @@ class GameListTile extends StatelessWidget {
         color: Color(0xff292333),
         borderRadius: BorderRadius.circular(10),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: const EdgeInsets.only(top: 22, left: 5),
       child: Column(
         children: [
-          ListTile(
-            leading: Image.asset(
-              image,
-              fit: BoxFit.cover,
-            ),
-            title: Text(
-              text,
-              style: const TextStyle(
-                fontFamily: "poppins",
-                color: Color(0xffFFFFFF),
-                fontWeight: FontWeight.w600,
-                fontSize: 18,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 120,
+                    width: 100,
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          gameDetail.image,
+                          height: 72,
+                          width: 72,
+                          fit: BoxFit.cover,
+                        ),
+                        verticalSpace(9),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            gameDetail.isFavroite
+                                ? SvgPicture.asset(
+                                    "assets/icons/favourite_color.svg",
+                                  )
+                                : SvgPicture.asset(
+                                    "assets/icons/favourite_outlined.svg",
+                                  ),
+                            horizontalSpace(13),
+                            Text(
+                              "240",
+                              style: getLightStyle(),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ),
-            subtitle: const Text(
-              "Join your crewmates in a multiplayer game of teamwork",
-              style: TextStyle(
-                color: Color(0xffFFFFFF),
-                fontFamily: "poppins",
-                fontSize: 10,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    gameDetail.title,
+                    style: getSemiBoldStyle(fontSize: 18),
+                  ),
+                  verticalSpace(2),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: Text(gameDetail.description,
+                        maxLines: 2,
+                        style: getLightStyle(
+                          fontSize: 10,
+                          fontColor: Color(0xffFFFFFF),
+                        )),
+                  ),
+                  verticalSpace(15),
+                  bottomRow(),
+                ],
+              )
+            ],
           ),
-          const SizedBox(),
-          BottomRow(),
         ],
       ),
     );
   }
 
-  Row BottomRow({bool isSelected = true}) {
+  Row bottomRow({bool isSelected = true}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Container(
-          child: Row(
-            children: [
-              isSelected
-                  ? const Icon(
-                      Icons.favorite,
-                      color: Color(0xffFCBC3C),
-                    )
-                  : const Icon(
-                      Icons.favorite_border,
-                      color: Color(0xffFFFFFF),
-                    ),
-              const SizedBox(
-                width: 8,
-              ),
-              const Text(
-                "240",
-                style: TextStyle(
-                  color: Color(0xffFFFFFF),
-                  fontFamily: "poppins",
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-            ],
-          ),
-        ),
         ElevatedButton.icon(
           onPressed: () {},
-          icon: const Icon(
-            Icons.play_arrow,
+          icon: SvgPicture.asset(
+            "assets/icons/play_button.svg",
           ),
-          label: const Text(
-            "Play",
-            style: TextStyle(
-              color: Color(0xffFFFFFF),
-              fontFamily: "poppins",
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+          label: Text("Play", style: getSemiBoldStyle()),
           style: ElevatedButton.styleFrom(
             maximumSize: const Size(150, 40),
-            primary: Colors.black,
+            primary: const Color(0xff0000004D),
             shape: const StadiumBorder(
               side: BorderSide(color: Color(0xffFCBC3C), width: 1),
             ),
           ),
         ),
-        Container(
-          child: Row(
-            children: const [
-              Icon(
-                Icons.people,
-                color: Color(0xffFFFFFF),
-              ),
-              SizedBox(
-                width: 8,
-              ),
-              Text(
-                "4 - 6 Players",
-                style: TextStyle(
-                  color: Color(0xffFFFFFF),
-                  fontFamily: "poppins",
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-            ],
-          ),
+        horizontalSpace(25),
+        Row(
+          children: [
+            SvgPicture.asset(
+              "assets/icons/users.svg",
+            ),
+            horizontalSpace(13),
+            Text(
+              "4 - 6 Players",
+              style: getLightStyle(),
+            ),
+          ],
         ),
       ],
     );

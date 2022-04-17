@@ -1,3 +1,4 @@
+import 'package:fidigames/resources/text_styles_manager.dart';
 import 'package:flutter/material.dart';
 
 class CustomedTextField extends StatelessWidget {
@@ -17,12 +18,14 @@ class CustomedTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         hintText: text,
-        hintStyle: const TextStyle(
-          color: Color(0xffFEFEFE),
-          fontWeight: FontWeight.w400,
-          fontSize: 14,
-        ),
+        hintStyle: getRegularStyle(fontSize: 14),
       ),
+      style: getRegularStyle(fontSize: 14),
     );
   }
 }
+// const TextStyle(
+//           color: Color.fromARGB(255, 170, 170, 170),
+//           fontWeight: FontWeight.w400,
+//           fontSize: 14,
+//         ),

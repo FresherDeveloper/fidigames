@@ -1,4 +1,6 @@
+import 'package:fidigames/resources/text_styles_manager.dart';
 import 'package:fidigames/screens/addGame.dart';
+import 'package:fidigames/widgets/common_widgets/space.dart';
 import 'package:fidigames/widgets/customedElevatedButton.dart';
 import 'package:fidigames/widgets/customedTextField.dart';
 
@@ -16,45 +18,25 @@ class LoginPage extends StatelessWidget {
         padding: const EdgeInsets.only(left: 24, right: 21),
         child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.only(
+            Padding(
+              padding: const EdgeInsets.only(
                 top: 93,
               ),
               child: Text(
                 "Fidigames",
-                style: TextStyle(
-                  color: Color(0xffFEFEFE),
-                  fontFamily: "poppins",
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 32,
-                ),
+                style: getSemiBoldStyle(fontSize: 32),
               ),
             ),
-            const SizedBox(
-              height: 123,
-            ),
-            const Text(
+            verticalSpace(123),
+            Text(
               "Login",
-              style: TextStyle(
-                color: Color(0xffFEFEFE),
-                fontFamily: "poppins",
-                fontWeight: FontWeight.w600,
-                fontStyle: FontStyle.normal,
-                fontSize: 18,
-              ),
+              style: getSemiBoldStyle(fontSize: 18),
             ),
-            const SizedBox(
-              height: 39,
-            ),
+            verticalSpace(39),
             CustomedTextField(text: "Email"),
-            const SizedBox(
-              height: 22,
-            ),
+            verticalSpace(22),
             CustomedTextField(text: "Password"),
-            const SizedBox(
-              height: 53,
-            ),
+            verticalSpace(53),
             CustomedElevatedButton(
               buttonText: "Sign In",
               buttonAction: () {
