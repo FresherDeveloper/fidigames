@@ -22,13 +22,6 @@ class AppPadding {
   static const double p24 = 24.0;
 }
 
-
-class AppSpace {
-  static const double sp5 = 5.0;
-
-  static const double sp22 = 22.0;
-}
-
 class AppSize {
   static const double s0 = 0.0;
   static const double s1 = 1.0;

@@ -1,8 +1,8 @@
 import 'package:fidigames/resources/text_styles_manager.dart';
 import 'package:fidigames/screens/addGame.dart';
-import 'package:fidigames/widgets/common_widgets/space.dart';
-import 'package:fidigames/widgets/customedElevatedButton.dart';
-import 'package:fidigames/widgets/customedTextField.dart';
+
+import 'package:fidigames/widgets/customElevatedButton.dart';
+import 'package:fidigames/widgets/customTextField.dart';
 
 import 'package:flutter/material.dart';
 
@@ -27,17 +27,21 @@ class LoginPage extends StatelessWidget {
                 style: getSemiBoldStyle(fontSize: 32),
               ),
             ),
-            verticalSpace(123),
+           const SizedBox(height: 123,),
+
             Text(
               "Login",
               style: getSemiBoldStyle(fontSize: 18),
             ),
-            verticalSpace(39),
-            CustomedTextField(text: "Email"),
-            verticalSpace(22),
-            CustomedTextField(text: "Password"),
-            verticalSpace(53),
-            CustomedElevatedButton(
+            const SizedBox(height: 39,),
+
+            CustomTextField(text: "Email"),
+            const SizedBox(height: 22,),
+
+            CustomTextField(text: "Password"),
+            const SizedBox(height: 53,),
+
+            CustomElevatedButton(
               buttonText: "Sign In",
               buttonAction: () {
                 Navigator.push(context,

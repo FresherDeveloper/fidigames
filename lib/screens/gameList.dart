@@ -1,7 +1,7 @@
 import 'package:fidigames/resources/strings_manager.dart';
 import 'package:fidigames/resources/text_styles_manager.dart';
-import 'package:fidigames/widgets/common_widgets/appbar.dart';
-import 'package:fidigames/widgets/common_widgets/space.dart';
+import 'package:fidigames/widgets/appbar.dart';
+
 import 'package:fidigames/widgets/gameListTile.dart';
 
 import 'package:flutter/material.dart';
@@ -97,7 +97,8 @@ class GameList extends StatelessWidget {
                     ),
                   ),
                 ),
-                verticalSpace(28),
+                const SizedBox(height: 28,),
+
                 Expanded(
                   child: ListView.builder(
                     itemBuilder: (ctx, index) {

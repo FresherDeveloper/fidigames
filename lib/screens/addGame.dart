@@ -1,13 +1,12 @@
-import 'dart:ui';
 
 import 'package:fidigames/resources/strings_manager.dart';
 import 'package:fidigames/resources/text_styles_manager.dart';
 import 'package:fidigames/resources/values_manager.dart';
 import 'package:fidigames/screens/gameList.dart';
-import 'package:fidigames/widgets/common_widgets/appbar.dart';
-import 'package:fidigames/widgets/common_widgets/space.dart';
-import 'package:fidigames/widgets/customedElevatedButton.dart';
-import 'package:fidigames/widgets/customedTextField.dart';
+import 'package:fidigames/widgets/appbar.dart';
+
+import 'package:fidigames/widgets/customElevatedButton.dart';
+import 'package:fidigames/widgets/customTextField.dart';
 import 'package:fidigames/widgets/dropDownButton.dart';
 
 import 'package:fidigames/widgets/upload.dart';
@@ -36,15 +35,16 @@ class AddGame extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Name of the Game",
-                  style: getRegularStyle(),
-                ),
-                verticalSpace(AppSpace.sp5),
-                CustomedTextField(text: "Enter Game Name"),
-                verticalSpace(27),
-                upperText(textFieldName: "Description"),
-                verticalSpace(5),
+
+                gameLabel(labelText:  "Name of the Game"),
+                const SizedBox(height: 5,),
+
+                CustomTextField(text: "Enter Game Name"),
+                const SizedBox(height: 27,),
+
+                gameLabel(labelText: "Description"),
+                const SizedBox(height: 5,),
+
                 TextField(
                   maxLines: 4,
                   decoration: InputDecoration(
@@ -59,23 +59,33 @@ class AddGame extends StatelessWidget {
                     hintStyle: getRegularStyle(fontSize: 14),
                   ),
                 ),
-                verticalSpace(33),
-                upperText(textFieldName: "Game Url"),
-                verticalSpace(5),
-                CustomedTextField(text: "www.amongus.com"),
-                verticalSpace(46),
-                upperText(textFieldName: "Players Count"),
-                verticalSpace(5),
+                const SizedBox(height: 33,),
+
+                gameLabel(labelText: "Game Url"),
+                const SizedBox(height: 5,),
+
+                CustomTextField(text: "www.amongus.com"),
+                const SizedBox(height: 46,),
+
+                gameLabel(labelText: "Players Count"),
+                const SizedBox(height: 5,),
+
                 playersCount(),
-                verticalSpace(49),
-                upperText(textFieldName: "Category"),
-                verticalSpace(5),
-                DropDownButton(),
-                verticalSpace(41),
+                const SizedBox(height: 49,),
+
+                gameLabel(labelText: "Category"),
+                const SizedBox(height: 5,),
+
+                DropDownButton(
+                items: ["Among Us", "Mini Militia", "Skribbl.io"],
+                ),
+                const SizedBox(height: 41,),
+
                 Upload(),
-                verticalSpace(37),
+                const SizedBox(height: 37,),
+
                 Center(
-                  child: CustomedElevatedButton(
+                  child: CustomElevatedButton(
                     buttonText: "Submit",
                     buttonAction: () {
                       Navigator.push(context,
@@ -83,7 +93,8 @@ class AddGame extends StatelessWidget {
                     },
                   ),
                 ),
-                verticalSpace(27),
+                const SizedBox(height: 27,),
+
               ],
             ),
           ),
@@ -92,9 +103,9 @@ class AddGame extends StatelessWidget {
     );
   }
 
-  Widget upperText({required String textFieldName}) {
+  Widget gameLabel({required String labelText}) {
     return Text(
-      textFieldName,
+      labelText,
       style: getRegularStyle(),
     );
   }
@@ -106,17 +117,19 @@ class AddGame extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const HintText(hintText: "Minimum Count"),
-            horizontalSpace(5),
+            const SizedBox(width: 10,),
+
             countContainer(count: 2),
           ],
         ),
+        const SizedBox(width: 29,),
 
-        horizontalSpace(29),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             const HintText(hintText: "Maximum count"),
-            horizontalSpace(5),
+            const SizedBox(width: 10,),
+
             countContainer(count: 8),
           ],
         ),

@@ -1,10 +1,10 @@
 import 'package:fidigames/resources/text_styles_manager.dart';
 import 'package:flutter/material.dart';
 
-class CustomedElevatedButton extends StatelessWidget {
+class CustomElevatedButton extends StatelessWidget {
   final String buttonText;
   final Function() buttonAction;
-  CustomedElevatedButton(
+  CustomElevatedButton(
       {Key? key, required this.buttonText, required this.buttonAction})
       : super(key: key);
 

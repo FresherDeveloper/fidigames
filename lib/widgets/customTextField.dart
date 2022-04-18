@@ -1,10 +1,10 @@
 import 'package:fidigames/resources/text_styles_manager.dart';
 import 'package:flutter/material.dart';
 
-class CustomedTextField extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final String text;
 
-  CustomedTextField({
+  CustomTextField({
     required this.text,
   });
   @override
