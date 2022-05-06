@@ -1,7 +1,9 @@
+import 'dart:io';
+
+import 'package:fidigames/models/game_list_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../models/gameDetail.dart';
 import '../resources/text_styles_manager.dart';
 import '../resources/values_manager.dart';
 
@@ -9,7 +11,7 @@ class GameListTile extends StatelessWidget {
   final GameDetail gameDetail;
 
   GameListTile({required this.gameDetail});
-
+  bool isFavroite = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,21 +27,30 @@ class GameListTile extends StatelessWidget {
         children: [
           ListTile(
             contentPadding: EdgeInsets.zero,
-            leading: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                gameDetail.image,
-
-                //height: 72,
-                width: 72,
-                fit: BoxFit.cover,
+            minLeadingWidth: 20,
+            leading: SizedBox(
+              width: 72,
+              height: 72,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.file(
+                  File(gameDetail.gameImageUrl),
+                  fit: BoxFit.cover,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    return Image.asset(
+                      "assets/images/img1.png",
+                      fit: BoxFit.cover,
+                    );
+                  },
+                ),
               ),
             ),
             title: Text(
-              gameDetail.title,
+              gameDetail.gameName,
               style: getSemiBoldStyle(fontSize: 18),
             ),
-            subtitle: Text(gameDetail.description,
+            subtitle: Text(gameDetail.gameDescription,
                 maxLines: 2,
                 style: getLightStyle(
                   fontSize: 10,
@@ -51,7 +62,7 @@ class GameListTile extends StatelessWidget {
           ),
           Row(
             children: [
-              gameDetail.isFavroite
+              isFavroite
                   ? SvgPicture.asset(
                       "assets/icons/favourite_color.svg",
                     )
@@ -62,7 +73,7 @@ class GameListTile extends StatelessWidget {
                 width: 13,
               ),
               Text(
-                "240",
+                "${gameDetail.gameLikesCount}",
                 style: getLightStyle(),
               ),
               const SizedBox(
@@ -92,7 +103,7 @@ class GameListTile extends StatelessWidget {
                 width: 13,
               ),
               Text(
-                "4 - 6 Players",
+                "${gameDetail.gameMinp} -${gameDetail.gameMaxp} Players",
                 style: getLightStyle(),
               ),
             ],

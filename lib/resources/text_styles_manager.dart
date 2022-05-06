@@ -37,6 +37,7 @@ TextStyle getLightStyle({
 
 //Regular style
 TextStyle getRegularStyle({
+  
   double fontSize = FontSizeManager.s12,
   Color fontColor = const Color(0XFFFEFEFE),
 }) {
