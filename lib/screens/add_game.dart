@@ -20,7 +20,12 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import '../widgets/hinttext.dart';
 
-class AddGame extends StatelessWidget {
+class AddGame extends StatefulWidget {
+  @override
+  State<AddGame> createState() => _AddGameState();
+}
+
+class _AddGameState extends State<AddGame> {
   String? addGameValidator(String? value) {
     if (value!.isEmpty) {
       return 'This field should not be empty';
@@ -36,15 +41,25 @@ class AddGame extends StatelessWidget {
   }
 
   String? imageUrl;
+
+  bool showImageUploadError = false;
+
   String? _gameCategory;
+
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController minpController = TextEditingController();
+
   final TextEditingController maxpController = TextEditingController();
+
   final TextEditingController nameController = TextEditingController();
+
   final TextEditingController descriptionController = TextEditingController();
+
   final TextEditingController gameUrlController = TextEditingController();
+
   final TextEditingController urlController = TextEditingController();
+
   addGame(
     String gameName,
     String gameDescription,
@@ -84,10 +99,10 @@ class AddGame extends StatelessWidget {
       AddGameModel game = addGameModelFromJson(gameData);
       Logger().d(game.toJson());
       if (game.msg != null) {
-       // Navigator.pop(context);
-        
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => GameList()));
+        // Navigator.pop(context);
+
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => GameList()));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(game.msg)),
@@ -189,19 +204,27 @@ class AddGame extends StatelessWidget {
                   const SizedBox(
                     height: 41,
                   ),
-                  Upload(
-                  
-                    onSelectImage: (String imagepath) {
-                    
-                    Logger().w('IMAGE PATH IS ${imagepath}');
-                    imageUrl = imagepath;
-                    
-                   
-                    
-                  },
-                 
-
-                
+                  Column(
+                    children: [
+                      Upload(
+                        onSelectImage: (String imagepath) {
+                          Logger().w('IMAGE PATH IS ${imagepath}');
+                          imageUrl = imagepath;
+                          setState(
+                            () {
+                              showImageUploadError = false;
+                            },
+                          );
+                        },
+                        erroroccured:
+                            (imageUrl == null && showImageUploadError == true),
+                      ),
+                      if (imageUrl == null && showImageUploadError == true)
+                        const Text(
+                          'Please Upload Image',
+                          style: TextStyle(color: Colors.red),
+                        )
+                    ],
                   ),
                   const SizedBox(
                     height: 37,
@@ -210,13 +233,17 @@ class AddGame extends StatelessWidget {
                     child: CustomElevatedButton(
                       buttonText: "Submit",
                       buttonAction: () {
+                        setState(() {
+                          showImageUploadError = true;
+                        });
                         final String gameName = nameController.text;
                         final String gameDescription =
                             descriptionController.text;
                         final String gameUrl = gameUrlController.text;
                         final String gameMinp = minpController.text;
                         final String gameMaxp = maxpController.text;
-                        if (_formKey.currentState!.validate()) {
+                        if (_formKey.currentState!.validate() &&
+                            imageUrl != null) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('loading')),
                           );
