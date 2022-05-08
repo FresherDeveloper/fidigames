@@ -97,7 +97,7 @@ class _AddGameState extends State<AddGame> {
       // print(await response.stream.bytesToString());
       var gameData = await response.stream.bytesToString();
       AddGameModel game = addGameModelFromJson(gameData);
-      Logger().d(game.toJson());
+      Logger().d(gameData);
       if (game.msg != null) {
         // Navigator.pop(context);
 
@@ -205,6 +205,8 @@ class _AddGameState extends State<AddGame> {
                     height: 41,
                   ),
                   Column(
+                   
+                   crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Upload(
                         onSelectImage: (String imagepath) {
@@ -220,9 +222,12 @@ class _AddGameState extends State<AddGame> {
                             (imageUrl == null && showImageUploadError == true),
                       ),
                       if (imageUrl == null && showImageUploadError == true)
-                        const Text(
-                          'Please Upload Image',
-                          style: TextStyle(color: Colors.red),
+                         Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child:  Text(
+                            'Please Upload Image',
+                            style: TextStyle(color: Colors.red[700] ,fontSize: 12,),
+                          ),
                         )
                     ],
                   ),

@@ -64,7 +64,8 @@ class _UploadState extends State<Upload> {
                 color: const Color(0xff292333),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: widget.erroroccured?Colors.red:Colors.white70,
+                  width: 2,
+                  color: widget.erroroccured?Colors.red.shade900:Colors.white30,
                 ),
               ),
               child: Row(
