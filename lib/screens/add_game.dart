@@ -74,7 +74,7 @@ class _AddGameState extends State<AddGame> {
     Logger().w(apiKey);
     var headers = {
       'accept': 'application/json',
-      'api-key': "$apiKey",
+      'api-key':"$apiKey", 
       'Content-Type': 'application/json'
     };
     var request =
@@ -319,16 +319,21 @@ class _AddGameState extends State<AddGame> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Center(
-        child: TextFormField(
-          controller: controller,
-          validator: playersCountValidator,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: const Color(0xff292333),
-            hintText: count,
-            hintStyle: getRegularStyle(fontSize: 16),
+        child: Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: 
+          [TextFormField(
+            controller: controller,
+            validator: playersCountValidator,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: const Color(0xff292333),
+              hintText: count,
+              hintStyle: getRegularStyle(fontSize: 16),
+            ),
+            style: getRegularStyle(fontSize: 16),
           ),
-          style: getRegularStyle(fontSize: 16),
+          ],
         ),
       ),
     );

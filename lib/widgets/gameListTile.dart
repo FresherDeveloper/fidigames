@@ -1,17 +1,82 @@
 import 'dart:io';
 
+import 'package:fidigames/models/dislike_model.dart';
 import 'package:fidigames/models/game_list_detail.dart';
+import 'package:fidigames/models/like_model.dart';
+import 'package:fidigames/resources/strings_manager.dart';
+import 'package:fidigames/utils/shared_pref_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'package:like_button/like_button.dart';
+import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import '../resources/text_styles_manager.dart';
 import '../resources/values_manager.dart';
 
-class GameListTile extends StatelessWidget {
+class GameListTile extends StatefulWidget {
   final GameDetail gameDetail;
 
   GameListTile({required this.gameDetail});
-  bool isFavroite = false;
+
+  @override
+  State<GameListTile> createState() => _GameListTileState();
+}
+
+class _GameListTileState extends State<GameListTile> {
+  bool isLiked = false;
+
+  int likeCount = 0;
+
+  getLike() async {
+    var apiKey = SharedPrefUtils.getLoginDetails();
+    var headers = {
+      'accept': 'application/json',
+      'api-key': "$apiKey",
+    };
+    var request =
+        http.Request('PUT', Uri.parse('${AppStrings.baseUrl}/games/2/addlike'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      //print(await response.stream.bytesToString());
+      var like = await response.stream.bytesToString();
+      Logger().d(like);
+      setState(() {
+        LikeIncrementModel likeCounter = likeIncrementModelFromJson(like);
+      });
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  getDislike() async {
+    var apiKeys = SharedPrefUtils.getLoginDetails();
+    var headers = {
+      'accept': 'application/json',
+      'api-key': "$apiKeys",
+    };
+    var request = http.Request('DELETE',
+        Uri.parse('${AppStrings.baseUrl}/games/1/removelike'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      //print(await response.stream.bytesToString());
+      var dislike = await response.stream.bytesToString();
+      Logger().d(dislike);
+      setState(() {
+        LikeDecrementtModel dislikeCount = likeDecrementtModelFromJson(dislike);
+      });
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,7 +99,7 @@ class GameListTile extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.file(
-                  File(gameDetail.gameImageUrl),
+                  File(widget.gameDetail.gameImageUrl),
                   fit: BoxFit.cover,
                   errorBuilder: (BuildContext context, Object exception,
                       StackTrace? stackTrace) {
@@ -47,10 +112,10 @@ class GameListTile extends StatelessWidget {
               ),
             ),
             title: Text(
-              gameDetail.gameName,
+              widget.gameDetail.gameName,
               style: getSemiBoldStyle(fontSize: 18),
             ),
-            subtitle: Text(gameDetail.gameDescription,
+            subtitle: Text(widget.gameDetail.gameDescription,
                 maxLines: 2,
                 style: getLightStyle(
                   fontSize: 10,
@@ -62,19 +127,40 @@ class GameListTile extends StatelessWidget {
           ),
           Row(
             children: [
-              isFavroite
-                  ? SvgPicture.asset(
-                      "assets/icons/favourite_color.svg",
-                    )
-                  : SvgPicture.asset(
-                      "assets/icons/favourite_outlined.svg",
-                    ),
-              const SizedBox(
-                width: 13,
-              ),
-              Text(
-                "${gameDetail.gameLikesCount}",
-                style: getLightStyle(),
+              LikeButton(
+                isLiked: isLiked,
+                likeCount: likeCount,
+                size: 12,
+                likeBuilder: (isLiked) {
+                  return isLiked
+                      ? SvgPicture.asset(
+                          "assets/icons/favourite_color.svg",
+                        )
+                      : SvgPicture.asset(
+                          "assets/icons/favourite_outlined.svg",
+                        );
+                },
+                likeCountPadding: const EdgeInsets.only(left: 10),
+                countBuilder: (count, isLiked, text) {
+                  return Text(text,
+                      style: getLightStyle(
+                        fontColor: const Color(0xffFFFFFF),
+                      ));
+                },
+                onTap: (isLiked) async {
+                  this.isLiked = !isLiked;
+
+                  if (isLiked) {
+                    likeCount = likeCount - 1;
+                    getDislike();
+                  } else {
+                    likeCount = likeCount + 1;
+                    getLike();
+                  }
+
+                  //server request
+                  return !isLiked;
+                },
               ),
               const SizedBox(
                 width: 22,
@@ -103,7 +189,7 @@ class GameListTile extends StatelessWidget {
                 width: 13,
               ),
               Text(
-                "${gameDetail.gameMinp} -${gameDetail.gameMaxp} Players",
+                "${widget.gameDetail.gameMinp} -${widget.gameDetail.gameMaxp} Players",
                 style: getLightStyle(),
               ),
             ],

@@ -1,5 +1,6 @@
 import 'package:fidigames/resources/theme_manager.dart';
 import 'package:fidigames/screens/add_game.dart';
+import 'package:fidigames/screens/game_list.dart';
 import 'package:fidigames/screens/login.dart';
 import 'package:fidigames/utils/shared_pref_utils.dart';
 import 'package:flutter/material.dart';
