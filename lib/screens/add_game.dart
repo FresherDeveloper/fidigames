@@ -74,7 +74,7 @@ class _AddGameState extends State<AddGame> {
     Logger().w(apiKey);
     var headers = {
       'accept': 'application/json',
-      'api-key':"$apiKey", 
+      'api-key': "$apiKey",
       'Content-Type': 'application/json'
     };
     var request =
@@ -94,13 +94,10 @@ class _AddGameState extends State<AddGame> {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      // print(await response.stream.bytesToString());
       var gameData = await response.stream.bytesToString();
       AddGameModel game = addGameModelFromJson(gameData);
       Logger().d(gameData);
       if (game.msg != null) {
-        // Navigator.pop(context);
-
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => GameList()));
       } else {
@@ -119,7 +116,10 @@ class _AddGameState extends State<AddGame> {
     return SafeArea(
       child: Scaffold(
         appBar: getAppbar(
-            onBackPress: () {},
+            onBackPress: () {
+               Navigator.push(
+            context, MaterialPageRoute(builder: (context) => GameList()));
+            },
             title: AppStrings.addAGame,
             automaticallyImplyLeading: true),
         backgroundColor: const Color(0xff1A121E),
@@ -205,8 +205,7 @@ class _AddGameState extends State<AddGame> {
                     height: 41,
                   ),
                   Column(
-                   
-                   crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Upload(
                         onSelectImage: (String imagepath) {
@@ -222,11 +221,14 @@ class _AddGameState extends State<AddGame> {
                             (imageUrl == null && showImageUploadError == true),
                       ),
                       if (imageUrl == null && showImageUploadError == true)
-                         Padding(
+                        Padding(
                           padding: EdgeInsets.all(8.0),
-                          child:  Text(
+                          child: Text(
                             'Please Upload Image',
-                            style: TextStyle(color: Colors.red[700] ,fontSize: 12,),
+                            style: TextStyle(
+                              color: Colors.red[700],
+                              fontSize: 12,
+                            ),
                           ),
                         )
                     ],
@@ -321,18 +323,18 @@ class _AddGameState extends State<AddGame> {
       child: Center(
         child: Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
-          children: 
-          [TextFormField(
-            controller: controller,
-            validator: playersCountValidator,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: const Color(0xff292333),
-              hintText: count,
-              hintStyle: getRegularStyle(fontSize: 16),
+          children: [
+            TextFormField(
+              controller: controller,
+              validator: playersCountValidator,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: const Color(0xff292333),
+                hintText: count,
+                hintStyle: getRegularStyle(fontSize: 16),
+              ),
+              style: getRegularStyle(fontSize: 16),
             ),
-            style: getRegularStyle(fontSize: 16),
-          ),
           ],
         ),
       ),

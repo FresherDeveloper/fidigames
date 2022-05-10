@@ -41,7 +41,6 @@ class _GameListTileState extends State<GameListTile> {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      //print(await response.stream.bytesToString());
       var like = await response.stream.bytesToString();
       Logger().d(like);
       setState(() {
@@ -58,15 +57,14 @@ class _GameListTileState extends State<GameListTile> {
       'accept': 'application/json',
       'api-key': "$apiKeys",
     };
-    var request = http.Request('DELETE',
-        Uri.parse('${AppStrings.baseUrl}/games/1/removelike'));
+    var request = http.Request(
+        'DELETE', Uri.parse('${AppStrings.baseUrl}/games/1/removelike'));
 
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      //print(await response.stream.bytesToString());
       var dislike = await response.stream.bytesToString();
       Logger().d(dislike);
       setState(() {
@@ -158,7 +156,7 @@ class _GameListTileState extends State<GameListTile> {
                     getLike();
                   }
 
-                  //server request
+                
                   return !isLiked;
                 },
               ),

@@ -25,8 +25,7 @@ class _GameListState extends State<GameList> {
   List<GameDetail> newgame = [];
   getGame() async {
     var headers = {'accept': 'application/json', 'api-key': '$apikey'};
-    var request = http.Request(
-        'GET', Uri.parse('${AppStrings.baseUrl}/games'));
+    var request = http.Request('GET', Uri.parse('${AppStrings.baseUrl}/games'));
 
     request.headers.addAll(headers);
 
@@ -107,7 +106,6 @@ class _GameListState extends State<GameList> {
                               gameDetail: newgame[index],
                             );
                           },
-                         
                           itemCount: newgame.length)
                       : const Center(
                           child: CircularProgressIndicator(color: Colors.white),
