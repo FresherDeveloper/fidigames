@@ -49,51 +49,37 @@ class _GameListState extends State<GameList> {
   GameListModel? gamelist;
   List<GameDetail> newCategory = [];
 
-   getCatogory() async {
+  getCatogory() async {
     var apiKey = SharedPrefUtils.getLoginDetails();
     var headers = {'accept': 'application/json', 'api-key': '$apiKey'};
     var request = http.Request(
-        'GET', Uri.parse('${AppStrings.baseUrl}/games/category/Among%20Us'));
+        'GET', Uri.parse('${AppStrings.baseUrl}/games/category/FPS'));
 
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
-    
 
     if (response.statusCode == 200) {
-      
       var category = await response.stream.bytesToString();
       //print(await response.stream.bytesToString());
-      setState(() {
-        List<GameCategoryModel> gameCatogory = gameCategoryModelFromJson(category);
-        
-        Logger().wtf(gameCatogory);
-      });
-      
+  
+   List<GameCategoryModel> gameCatogory = gameCategoryModelFromJson(category);
+             Logger().wtf(gameCatogory);
+  var mygame=gameCategoryModelToJson(gameCatogory);
+        Logger().wtf(mygame);
+
+      // setState(() {
+      //   List<GameCategoryModel> gameCatogory =
+      //       gameCategoryModelFromJson(category);
+      //        Logger().wtf(gameCatogory);
+      //   var mygame=gameCategoryModelToJson(gameCatogory);
+      //   Logger().wtf(mygame);
+      // });
+
     } else {
       print(response.reasonPhrase);
     }
   }
-
-  // var headers = {'accept': 'application/json', 'api-key': '$apiKey'};
-  // var request = http.Request(
-  //     'GET', Uri.parse('${AppStrings.baseUrl}/games/category/amoung%20us'));
-
-  // request.headers.addAll(headers);
-
-  // http.StreamedResponse response = await request.send();
-
-  // if (response.statusCode == 200) {
-  //   var catogory = await response.stream.bytesToString();
-
-  //   setState(() {
-  //     List<GameCategoryModel> gameCatogory = gameCategoryModelFromJson(catogory);
-  //     Logger().wtf(gameCatogory);
-  //   });
-  // } else {
-  //   print(response.reasonPhrase);
-  // }
-  //}
 
   getGame() async {
     var headers = {'accept': 'application/json', 'api-key': '$apikey'};
@@ -147,12 +133,6 @@ class _GameListState extends State<GameList> {
 
                     onLoading();
 
-                    // newCategory = newgame
-                    //     .where((element) => element.gameName
-                    //         .toUpperCase()
-                    //         .contains(value.toUpperCase()))
-                    //     .toList();
-
                     newCategory = newgame
                         .where((element) => element.gameCategory
                             .toUpperCase()
@@ -160,6 +140,7 @@ class _GameListState extends State<GameList> {
                         .toList();
 
                     getCatogory();
+                    
                   },
                 ),
                 const SizedBox(

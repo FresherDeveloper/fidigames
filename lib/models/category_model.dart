@@ -66,4 +66,10 @@ class GameCategoryModel {
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
     };
+    // @override
+    // String toString(){
+
+    //   return "GameCategoryModel(id: $id,game_category:$gameCategory)";
+    // }
+   
 }
