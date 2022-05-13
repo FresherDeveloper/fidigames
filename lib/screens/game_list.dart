@@ -1,11 +1,14 @@
+import 'dart:async';
+
+import 'package:fidigames/models/category_model.dart';
 import 'package:fidigames/models/game_list_detail.dart';
 import 'package:fidigames/resources/strings_manager.dart';
-import 'package:fidigames/resources/text_styles_manager.dart';
 import 'package:fidigames/screens/add_game.dart';
 import 'package:fidigames/utils/shared_pref_utils.dart';
 import 'package:fidigames/widgets/appbar.dart';
 
 import 'package:fidigames/widgets/gameListTile.dart';
+import 'package:fidigames/widgets/game_Catogory.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,10 +22,79 @@ class GameList extends StatefulWidget {
 }
 
 class _GameListState extends State<GameList> {
-  var apikey = SharedPrefUtils.getLoginDetails();
+  bool isLoading = true;
+  void onLoading() {
+    setState(() {
+      isLoading = true;
+    });
+    Timer(Duration(seconds: 2), () {
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
 
-  GameListModel? gamelist;
+  bool didPressed = false;
+  var apikey = SharedPrefUtils.getLoginDetails();
+  List<String> gameCategoryItems = [
+    "Among Us",
+    "Mini Militia",
+    "Skribbl.io",
+    "Call of Duty",
+    "among Us",
+    "FPS",
+  ];
+
   List<GameDetail> newgame = [];
+  GameListModel? gamelist;
+  List<GameDetail> newCategory = [];
+
+   getCatogory() async {
+    var apiKey = SharedPrefUtils.getLoginDetails();
+    var headers = {'accept': 'application/json', 'api-key': '$apiKey'};
+    var request = http.Request(
+        'GET', Uri.parse('${AppStrings.baseUrl}/games/category/Among%20Us'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    
+
+    if (response.statusCode == 200) {
+      
+      var category = await response.stream.bytesToString();
+      //print(await response.stream.bytesToString());
+      setState(() {
+        List<GameCategoryModel> gameCatogory = gameCategoryModelFromJson(category);
+        
+        Logger().wtf(gameCatogory);
+      });
+      
+    } else {
+      print(response.reasonPhrase);
+    }
+  }
+
+  // var headers = {'accept': 'application/json', 'api-key': '$apiKey'};
+  // var request = http.Request(
+  //     'GET', Uri.parse('${AppStrings.baseUrl}/games/category/amoung%20us'));
+
+  // request.headers.addAll(headers);
+
+  // http.StreamedResponse response = await request.send();
+
+  // if (response.statusCode == 200) {
+  //   var catogory = await response.stream.bytesToString();
+
+  //   setState(() {
+  //     List<GameCategoryModel> gameCatogory = gameCategoryModelFromJson(catogory);
+  //     Logger().wtf(gameCatogory);
+  //   });
+  // } else {
+  //   print(response.reasonPhrase);
+  // }
+  //}
+
   getGame() async {
     var headers = {'accept': 'application/json', 'api-key': '$apikey'};
     var request = http.Request('GET', Uri.parse('${AppStrings.baseUrl}/games'));
@@ -40,6 +112,7 @@ class _GameListState extends State<GameList> {
         for (var item in gamelist!.data) {
           newgame.add(item);
         }
+        onLoading();
       });
     } else {
       print(response.reasonPhrase);
@@ -67,50 +140,51 @@ class _GameListState extends State<GameList> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 32,
-                  width: 135,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          "Catogories",
-                          style: getMediumStyle(),
-                        ),
-                        SvgPicture.asset(
-                          "assets/icons/arrow_down2.svg",
-                        ),
-                      ],
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(135, 32),
-                      primary: const Color(0xff1A121E),
-                      shape: const StadiumBorder(
-                        side: BorderSide(
-                          color: Color(0xffBAB8BB),
-                        ),
-                      ),
-                    ),
-                  ),
+                GameCatogory(
+                  items: gameCategoryItems,
+                  onDropDownValueCallback: (String value) {
+                    didPressed = true;
+
+                    onLoading();
+
+                    // newCategory = newgame
+                    //     .where((element) => element.gameName
+                    //         .toUpperCase()
+                    //         .contains(value.toUpperCase()))
+                    //     .toList();
+
+                    newCategory = newgame
+                        .where((element) => element.gameCategory
+                            .toUpperCase()
+                            .contains(value.toUpperCase()))
+                        .toList();
+
+                    getCatogory();
+                  },
                 ),
                 const SizedBox(
                   height: 28,
                 ),
                 Expanded(
-                  child: newgame != null
-                      ? ListView.builder(
-                          itemBuilder: (ctx, index) {
-                            return GameListTile(
-                              gameDetail: newgame[index],
-                            );
-                          },
-                          itemCount: newgame.length)
-                      : const Center(
-                          child: CircularProgressIndicator(color: Colors.white),
-                        ),
-                ),
+                    child: didPressed == true
+                        ? isLoading == true
+                            ? const Center(child: CircularProgressIndicator())
+                            : ListView.builder(
+                                itemBuilder: (ctx, index) {
+                                  return GameListTile(
+                                    gameDetail: newCategory[index],
+                                  );
+                                },
+                                itemCount: newCategory.length)
+                        : isLoading == true
+                            ? const Center(child: CircularProgressIndicator())
+                            : ListView.builder(
+                                itemBuilder: (ctx, index) {
+                                  return GameListTile(
+                                    gameDetail: newgame[index],
+                                  );
+                                },
+                                itemCount: newgame.length)),
               ],
             ),
           ),

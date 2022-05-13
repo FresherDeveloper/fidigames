@@ -1,6 +1,5 @@
 import 'package:fidigames/resources/theme_manager.dart';
 import 'package:fidigames/screens/add_game.dart';
-import 'package:fidigames/screens/game_list.dart';
 import 'package:fidigames/screens/login.dart';
 import 'package:fidigames/utils/shared_pref_utils.dart';
 import 'package:flutter/material.dart';
@@ -16,12 +15,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? authToken = SharedPrefUtils.getLoginDetails();
-     //SharedPrefUtils.clear();
+    // SharedPrefUtils.clear();
     return MaterialApp(
       theme: getApplicationTheme(),
       debugShowCheckedModeBanner: false,
-      home: 
-     authToken != null ? AddGame() : LoginPage(),
+      home:authToken != null ? AddGame() : LoginPage(),
     );
   }
 }

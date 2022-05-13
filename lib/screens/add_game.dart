@@ -112,13 +112,18 @@ class _AddGameState extends State<AddGame> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> gameCategory = ["Among Us", "Mini Militia", "Skribbl.io"];
+    List<String> gameCategory = [
+      "Among Us",
+      "Mini Militia",
+      "Skribbl.io",
+      "FPS"
+    ];
     return SafeArea(
       child: Scaffold(
         appBar: getAppbar(
             onBackPress: () {
-               Navigator.push(
-            context, MaterialPageRoute(builder: (context) => GameList()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => GameList()));
             },
             title: AppStrings.addAGame,
             automaticallyImplyLeading: true),
@@ -167,6 +172,7 @@ class _AddGameState extends State<AddGame> {
                           "Join your crewmates in a multiplayer game of teamwork.",
                       hintStyle: getRegularStyle(fontSize: 14),
                     ),
+                    style: getRegularStyle(fontSize: 14),
                   ),
                   const SizedBox(
                     height: 33,
@@ -287,7 +293,7 @@ class _AddGameState extends State<AddGame> {
           children: [
             const HintText(hintText: "Minimum Count"),
             countContainer(
-              count: "2",
+              count: 2,
               controller: minpController,
             ),
           ],
@@ -300,7 +306,7 @@ class _AddGameState extends State<AddGame> {
           children: [
             const HintText(hintText: "Maximum count"),
             countContainer(
-              count: "8",
+              count: 8,
               controller: maxpController,
             ),
           ],
@@ -310,7 +316,7 @@ class _AddGameState extends State<AddGame> {
   }
 
   Widget countContainer(
-      {required String count, TextEditingController? controller}) {
+      {required int count, TextEditingController? controller}) {
     return Container(
       height: 34,
       width: 34,
@@ -330,7 +336,7 @@ class _AddGameState extends State<AddGame> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: const Color(0xff292333),
-                hintText: count,
+                hintText: "$count",
                 hintStyle: getRegularStyle(fontSize: 16),
               ),
               style: getRegularStyle(fontSize: 16),

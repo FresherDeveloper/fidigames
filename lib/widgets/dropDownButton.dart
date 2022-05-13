@@ -19,9 +19,10 @@ class DropDownButton extends StatelessWidget {
         validator: (value) => value == null ? 'Please select a game' : null,
         dropdownColor: const Color(0xff292333),
         decoration: const InputDecoration(
+         // border: OutlineInputBorder(),
           contentPadding: EdgeInsets.fromLTRB(16, 13, 19, 13),
           filled: true,
-          fillColor: const Color(0xff292333),
+          fillColor: Color(0xff292333),
         ),
         isExpanded: true,
         hint: const HintText(hintText: "Choose the category of game"),
@@ -42,6 +43,7 @@ class DropDownButton extends StatelessWidget {
             )
             .toList(),
         onChanged: (value) {
+         FocusScope.of(context).requestFocus(FocusNode());
           onDropDownValueCallback(
             value.toString(),
           );
