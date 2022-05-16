@@ -48,12 +48,13 @@ class _GameListState extends State<GameList> {
   List<GameDetail> newgame = [];
   GameListModel? gamelist;
   List<GameDetail> newCategory = [];
-
+ String? _gameCategory;
   getCatogory() async {
     var apiKey = SharedPrefUtils.getLoginDetails();
     var headers = {'accept': 'application/json', 'api-key': '$apiKey'};
+    
     var request = http.Request(
-        'GET', Uri.parse('${AppStrings.baseUrl}/games/category/FPS'));
+        'GET', Uri.parse('${AppStrings.baseUrl}/games/category/$_gameCategory'));
 
     request.headers.addAll(headers);
 
@@ -77,6 +78,7 @@ class _GameListState extends State<GameList> {
       // });
 
     } else {
+      
       print(response.reasonPhrase);
     }
   }
@@ -129,6 +131,7 @@ class _GameListState extends State<GameList> {
                 GameCatogory(
                   items: gameCategoryItems,
                   onDropDownValueCallback: (String value) {
+                    _gameCategory=value;
                     didPressed = true;
 
                     onLoading();
