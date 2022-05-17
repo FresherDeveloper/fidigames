@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:fidigames/models/category_model.dart';
 import 'package:fidigames/models/game_list_detail.dart';
 import 'package:fidigames/resources/strings_manager.dart';
+import 'package:fidigames/resources/text_styles_manager.dart';
 import 'package:fidigames/screens/add_game.dart';
 import 'package:fidigames/utils/shared_pref_utils.dart';
 import 'package:fidigames/widgets/appbar.dart';
@@ -23,18 +25,21 @@ class GameList extends StatefulWidget {
 
 class _GameListState extends State<GameList> {
   bool isLoading = true;
-  void onLoading() {
-    setState(() {
-      isLoading = true;
-    });
-    Timer(Duration(seconds: 2), () {
-      setState(() {
-        isLoading = false;
-      });
-    });
+
+  void myItems(
+    String value,
+  ) {
+    isLoading = false;
+
+    newCategory = newgame
+        .where((element) =>
+            element.gameCategory.toUpperCase().contains(value.toUpperCase()))
+        .toList();
+    if (newCategory.isEmpty) {
+      Logger().wtf("message:No games in that category");
+    }
   }
 
-  bool didPressed = false;
   var apikey = SharedPrefUtils.getLoginDetails();
   List<String> gameCategoryItems = [
     "Among Us",
@@ -48,13 +53,13 @@ class _GameListState extends State<GameList> {
   List<GameDetail> newgame = [];
   GameListModel? gamelist;
   List<GameDetail> newCategory = [];
- String? _gameCategory;
+  String? _gameCategory;
   getCatogory() async {
     var apiKey = SharedPrefUtils.getLoginDetails();
     var headers = {'accept': 'application/json', 'api-key': '$apiKey'};
-    
-    var request = http.Request(
-        'GET', Uri.parse('${AppStrings.baseUrl}/games/category/$_gameCategory'));
+
+    var request = http.Request('GET',
+        Uri.parse('${AppStrings.baseUrl}/games/category/$_gameCategory'));
 
     request.headers.addAll(headers);
 
@@ -62,23 +67,23 @@ class _GameListState extends State<GameList> {
 
     if (response.statusCode == 200) {
       var category = await response.stream.bytesToString();
-      //print(await response.stream.bytesToString());
-  
-   List<GameCategoryModel> gameCatogory = gameCategoryModelFromJson(category);
-             Logger().wtf(gameCatogory);
-  var mygame=gameCategoryModelToJson(gameCatogory);
-        Logger().wtf(mygame);
+      // print(await response.stream.bytesToString());
+
+      List<GameCategoryModel> gameCatogory =
+          gameCategoryModelFromJson(category);
+      Logger().wtf(gameCatogory);
+
+      var mygame = gameCategoryModelToJson(gameCatogory);
+      Logger().wtf(mygame);
 
       // setState(() {
       //   List<GameCategoryModel> gameCatogory =
       //       gameCategoryModelFromJson(category);
-      //        Logger().wtf(gameCatogory);
-      //   var mygame=gameCategoryModelToJson(gameCatogory);
+      //   Logger().wtf(gameCatogory);
+      //   var mygame = gameCategoryModelToJson(gameCatogory);
       //   Logger().wtf(mygame);
       // });
-
     } else {
-      
       print(response.reasonPhrase);
     }
   }
@@ -99,8 +104,10 @@ class _GameListState extends State<GameList> {
         newgame.clear();
         for (var item in gamelist!.data) {
           newgame.add(item);
+          newCategory = newgame;
         }
-        onLoading();
+        isLoading = true;
+        // onLoading();
       });
     } else {
       print(response.reasonPhrase);
@@ -131,44 +138,44 @@ class _GameListState extends State<GameList> {
                 GameCatogory(
                   items: gameCategoryItems,
                   onDropDownValueCallback: (String value) {
-                    _gameCategory=value;
-                    didPressed = true;
+                    _gameCategory = value;
+                  
+                    setState(() {
+                      
+                      myItems(value);
+                    });
 
-                    onLoading();
+                    // newCategory = newgame
+                    //     .where((element) => element.gameCategory
+                    //         .toUpperCase()
+                    //         .contains(value.toUpperCase()))
+                    //     .toList();
+                    // if (newCategory.isEmpty) {
+                    //   Logger().wtf("message:No games in that category");
 
-                    newCategory = newgame
-                        .where((element) => element.gameCategory
-                            .toUpperCase()
-                            .contains(value.toUpperCase()))
-                        .toList();
+                    // }
 
                     getCatogory();
-                    
                   },
                 ),
                 const SizedBox(
                   height: 28,
                 ),
                 Expanded(
-                    child: didPressed == true
-                        ? isLoading == true
-                            ? const Center(child: CircularProgressIndicator())
-                            : ListView.builder(
-                                itemBuilder: (ctx, index) {
-                                  return GameListTile(
-                                    gameDetail: newCategory[index],
-                                  );
-                                },
-                                itemCount: newCategory.length)
-                        : isLoading == true
-                            ? const Center(child: CircularProgressIndicator())
-                            : ListView.builder(
-                                itemBuilder: (ctx, index) {
-                                  return GameListTile(
-                                    gameDetail: newgame[index],
-                                  );
-                                },
-                                itemCount: newgame.length)),
+                  child: newCategory.isEmpty && isLoading == false
+                      ? Center(
+                          child:  Center(
+                              child: Text("No games in that category",style: getRegularStyle(fontSize: 20))),
+                        )
+                      : newCategory.isNotEmpty
+                          ? ListView.builder(
+                              itemBuilder: (ctx, index) {
+                                return GameListTile(
+                                    gameDetail: newCategory[index]);
+                              },
+                              itemCount: newCategory.length)
+                          : const Center(child: CircularProgressIndicator()),
+                ),
               ],
             ),
           ),
