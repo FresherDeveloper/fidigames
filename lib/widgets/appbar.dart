@@ -6,12 +6,12 @@ AppBar getAppbar(
     {String title = '',
     bool automaticallyImplyLeading = false,
     void Function()? onBackPress}) {
-  return AppBar(titleSpacing: onBackPress == null?24: 0,
-
+  return AppBar(
+    titleSpacing: onBackPress == null ? 24 : 0,
     leading: onBackPress != null
         ? IconButton(
-          iconSize: 24,
-             padding: const EdgeInsets.all(0),
+            iconSize: 24,
+            padding: const EdgeInsets.all(0),
             icon: SvgPicture.asset(
               "assets/icons/arrow_left.svg",
               fit: BoxFit.contain,

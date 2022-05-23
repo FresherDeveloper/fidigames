@@ -14,14 +14,14 @@ ThemeData getApplicationTheme() {
     splashColor: ColorManager.primaryWithOpacity70,
     colorScheme:
         ColorScheme.fromSwatch().copyWith(secondary: ColorManager.grey),
-    backgroundColor: ColorManager.dark_violet,
-    scaffoldBackgroundColor: ColorManager.dark_violet,
+    backgroundColor: ColorManager.darkViolet,
+    scaffoldBackgroundColor: ColorManager.darkViolet,
 
     //app bar theme
     // ignore: prefer_const_constructors
     appBarTheme: AppBarTheme(
         centerTitle: false,
-        color: ColorManager.dark_violet,
+        color: ColorManager.darkViolet,
         shadowColor: ColorManager.primaryWithOpacity70,
         elevation: AppSize.s0,
         titleTextStyle: getSemiBoldStyle(fontSize: 20)),

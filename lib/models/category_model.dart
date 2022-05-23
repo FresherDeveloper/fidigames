@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final gameCategoryModel = gameCategoryModelFromJson(jsonString);
-
 import 'dart:convert';
 
 List<GameCategoryModel> gameCategoryModelFromJson(String str) =>

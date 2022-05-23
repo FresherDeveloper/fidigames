@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:fidigames/resources/strings_manager.dart';
 import 'package:logger/logger.dart';
@@ -10,16 +9,16 @@ class SharedPrefUtils {
   static SharedPreferences? _prefsInstance;
 
   static Future<void> saveAuthToken({String? authToken}) async {
-  //  final SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool sucess = await setString(AppStrings.apiToken, authToken!);
+  
+    bool success = await setString(AppStrings.apiToken, authToken!);
     
-  Logger().d(sucess?'Data Persisted':'Data Not Persisted');
+  Logger().d(success?'Data Persisted':'Data Not Persisted');
   }
 
   static String? getLoginDetails() {
-    String? api_token =  getString(AppStrings.apiToken);
-     Logger().d('TOKEN $api_token');
-    return api_token;
+    String? apiToken =  getString(AppStrings.apiToken);
+     Logger().d('TOKEN $apiToken');
+    return apiToken;
   }
 
   static Future<SharedPreferences?> init() async {

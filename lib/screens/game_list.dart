@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:ui';
-
 import 'package:fidigames/models/category_model.dart';
 import 'package:fidigames/models/game_list_detail.dart';
 import 'package:fidigames/resources/strings_manager.dart';
@@ -10,7 +7,7 @@ import 'package:fidigames/utils/shared_pref_utils.dart';
 import 'package:fidigames/widgets/appbar.dart';
 
 import 'package:fidigames/widgets/gameListTile.dart';
-import 'package:fidigames/widgets/game_Catogory.dart';
+import 'package:fidigames/widgets/Custom_dropdownbutton.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,6 +16,8 @@ import 'package:logger/logger.dart';
 import '../widgets/custom_elevated_button.dart';
 
 class GameList extends StatefulWidget {
+  const GameList({Key? key}) : super(key: key);
+
   @override
   State<GameList> createState() => _GameListState();
 }
@@ -32,8 +31,7 @@ class _GameListState extends State<GameList> {
     isLoading = false;
 
     newCategory = newgame
-        .where((element) =>
-            element.gameCategory.toUpperCase().contains(value.toUpperCase()))
+        .where((element) => element.gameCategory.contains(value))
         .toList();
     if (newCategory.isEmpty) {
       Logger().wtf("message:No games in that category");
@@ -41,14 +39,7 @@ class _GameListState extends State<GameList> {
   }
 
   var apikey = SharedPrefUtils.getLoginDetails();
-  List<String> gameCategoryItems = [
-    "Among Us",
-    "Mini Militia",
-    "Skribbl.io",
-    "Call of Duty",
-    "among Us",
-    "FPS",
-  ];
+ 
 
   List<GameDetail> newgame = [];
   GameListModel? gamelist;
@@ -67,7 +58,6 @@ class _GameListState extends State<GameList> {
 
     if (response.statusCode == 200) {
       var category = await response.stream.bytesToString();
-      // print(await response.stream.bytesToString());
 
       List<GameCategoryModel> gameCatogory =
           gameCategoryModelFromJson(category);
@@ -75,14 +65,6 @@ class _GameListState extends State<GameList> {
 
       var mygame = gameCategoryModelToJson(gameCatogory);
       Logger().wtf(mygame);
-
-      // setState(() {
-      //   List<GameCategoryModel> gameCatogory =
-      //       gameCategoryModelFromJson(category);
-      //   Logger().wtf(gameCatogory);
-      //   var mygame = gameCategoryModelToJson(gameCatogory);
-      //   Logger().wtf(mygame);
-      // });
     } else {
       print(response.reasonPhrase);
     }
@@ -107,7 +89,6 @@ class _GameListState extends State<GameList> {
           newCategory = newgame;
         }
         isLoading = true;
-        // onLoading();
       });
     } else {
       print(response.reasonPhrase);
@@ -135,47 +116,51 @@ class _GameListState extends State<GameList> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GameCatogory(
-                  items: gameCategoryItems,
+                GameDropDownButton(
+                  height: 32,
+                  width: 135,
+                  fillColor: const Color(0xff1A121E),
+                  borderColor:const Color(0xffBAB8BB),
+                  borderRadius:BorderRadius.circular(16),
+                  icon: SvgPicture.asset(
+          "assets/icons/arrow_down2.svg",
+          color: const Color(0xffFFFFFF),
+        ),
+                  hintText: Text(
+          " categories",
+          style: getMediumStyle(fontColor: const Color(0xffFFFFFF,)),
+        ),
+                  
                   onDropDownValueCallback: (String value) {
                     _gameCategory = value;
-                  
+
                     setState(() {
-                      
                       myItems(value);
                     });
-
-                    // newCategory = newgame
-                    //     .where((element) => element.gameCategory
-                    //         .toUpperCase()
-                    //         .contains(value.toUpperCase()))
-                    //     .toList();
-                    // if (newCategory.isEmpty) {
-                    //   Logger().wtf("message:No games in that category");
-
-                    // }
-
+                   
                     getCatogory();
+                   
                   },
                 ),
                 const SizedBox(
                   height: 28,
                 ),
                 Expanded(
-                  child: newCategory.isEmpty && isLoading == false
-                      ? Center(
-                          child:  Center(
-                              child: Text("No games in that category",style: getRegularStyle(fontSize: 20))),
-                        )
-                      : newCategory.isNotEmpty
-                          ? ListView.builder(
-                              itemBuilder: (ctx, index) {
-                                return GameListTile(
-                                    gameDetail: newCategory[index]);
-                              },
-                              itemCount: newCategory.length)
-                          : const Center(child: CircularProgressIndicator()),
-                ),
+                    child: newCategory.isEmpty && isLoading == false
+                        ? Center(
+                            child: Center(
+                                child: Text("No games in that category",
+                                    style: getRegularStyle(fontSize: 20))),
+                          )
+                        :newgame.isNotEmpty
+                            ?  ListView.builder(
+                                itemBuilder: (ctx, index) {
+                                  return GameListTile(
+                                      gameDetail: newCategory[index]);
+                                },
+                                itemCount: newCategory.length):const Center(child: CircularProgressIndicator()),
+                            
+                                ),
               ],
             ),
           ),

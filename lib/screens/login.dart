@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:fidigames/resources/strings_manager.dart';
 import 'package:fidigames/resources/text_styles_manager.dart';
 import 'package:fidigames/screens/add_game.dart';
-import 'package:fidigames/screens/game_list.dart';
 
 import 'package:fidigames/widgets/custom_elevated_button.dart';
 import 'package:fidigames/widgets/custom_textformfield.dart';
@@ -17,12 +16,13 @@ import '../models/users.dart';
 import '../utils/shared_pref_utils.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 createUser(String email, String password, BuildContext context) async {
-  
   var request =
       http.Request('POST', Uri.parse('${AppStrings.baseUrl}/games/login'));
 
@@ -35,17 +35,14 @@ createUser(String email, String password, BuildContext context) async {
   if (response.statusCode == 200) {
     String data = await response.stream.bytesToString();
 
-    // print(data);
-
     UserModel model = userModelFromJson(data);
     Logger().d(model.toJson());
-    //print(model.toJson());
 
     if (model.apiKey != null) {
       SharedPrefUtils.saveAuthToken(authToken: model.apiKey);
       var apikey = SharedPrefUtils.getLoginDetails();
       Logger().wtf(apikey);
-      
+
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => AddGame()));
     } else {
@@ -74,14 +71,14 @@ class _LoginPageState extends State<LoginPage> {
     if (passwordController.text.length < 6) {
       return "Password length must be more than 6";
     }
+    return null;
   }
 
   @override
-  void initState() {
-
-    String? auth_token = SharedPrefUtils.getLoginDetails();
-
-    super.initState();
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -132,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   CustomElevatedButton(
                     buttonText: "Sign In",
-                    buttonAction: ()  {
+                    buttonAction: () {
                       final String email = emailController.text;
                       final String password = passwordController.text;
 

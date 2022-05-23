@@ -8,12 +8,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class Upload extends StatefulWidget {
   Function(String) onSelectImage;
-  final bool erroroccured;
+  final bool errorOccured;
 
-
-  Upload({
-    required this.onSelectImage, this.erroroccured = false,
-  });
+  Upload({Key? key, 
+    required this.onSelectImage,
+    this.errorOccured = false,
+  }) : super(key: key);
 
   @override
   State<Upload> createState() => _UploadState();
@@ -38,7 +38,6 @@ class _UploadState extends State<Upload> {
       setState(
         () {
           this.image = file;
-
         },
       );
     } on PlatformException catch (e) {
@@ -48,45 +47,44 @@ class _UploadState extends State<Upload> {
 
   @override
   Widget build(BuildContext context) {
-    
     return image != null
         ? Center(
-            child:  Image.file(
+            child: Image.file(
             image!,
             width: 150,
             height: 150,
           ))
-        :
-         Container(
-              height: 48,
-              padding: const EdgeInsets.fromLTRB(13, 8, 13, 16),
-              decoration: BoxDecoration(
-                color: const Color(0xff292333),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  width: 2,
-                  color: widget.erroroccured?Colors.red.shade900:Colors.white30,
+        : Container(
+            height: 48,
+            padding: const EdgeInsets.fromLTRB(13, 8, 13, 16),
+            decoration: BoxDecoration(
+              color: const Color(0xff292333),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                width:2 ,
+                color:
+                    widget.errorOccured ? Colors.red.shade900 : Colors.white30,
+              ),
+            ),
+            child: Row(
+              children: [
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    pickImage();
+                  },
+                  icon: SvgPicture.asset(
+                    "assets/icons/upload.svg",
+                    height: 14,
+                    width: 14,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              child: Row(
-                children: [
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      pickImage();
-                    },
-                    icon: SvgPicture.asset(
-                      "assets/icons/upload.svg",
-                      height: 14,
-                      width: 14,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const HintText(
-                    hintText: "Upload an image",
-                  ),
-                ],
-              ),
-            );
+                const HintText(
+                  hintText: "Upload an image",
+                ),
+              ],
+            ),
+          );
   }
 }

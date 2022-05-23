@@ -13,13 +13,6 @@ TextStyle _getStyle(
     fontWeight: fontWeight,
     color: fontColor,
   );
-
-  // TextStyle(
-  //   fontFamily: fontFamily,
-  //   fontSize: fontSize,
-  //   fontWeight: fontWeight,
-  //   color: fontColor,
-  // );
 }
 
 //Light style
@@ -37,7 +30,6 @@ TextStyle getLightStyle({
 
 //Regular style
 TextStyle getRegularStyle({
-  
   double fontSize = FontSizeManager.s12,
   Color fontColor = const Color(0XFFFEFEFE),
 }) {

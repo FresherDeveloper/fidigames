@@ -34,10 +34,10 @@ dependencies:
   google_fonts: ^2.3.2
   http: ^0.13.4
   logger: ^1.1.0
-  image_picker: ^0.8.5
   shared_preferences: ^2.0.13
   file_picker: ^4.5.1
   like_button: ^2.0.4
+  webview_flutter: ^3.0.4
   
   
  

@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:fidigames/models/add_game_model.dart';
 import 'package:fidigames/resources/strings_manager.dart';
@@ -12,15 +10,18 @@ import 'package:fidigames/widgets/appbar.dart';
 
 import 'package:fidigames/widgets/custom_elevated_button.dart';
 import 'package:fidigames/widgets/custom_textformfield.dart';
-import 'package:fidigames/widgets/dropdownbutton.dart';
+import 'package:fidigames/widgets/Custom_dropdownbutton.dart';
 
 import 'package:fidigames/widgets/upload.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import '../widgets/hinttext.dart';
 
 class AddGame extends StatefulWidget {
+  const AddGame({Key? key}) : super(key: key);
+
   @override
   State<AddGame> createState() => _AddGameState();
 }
@@ -40,9 +41,22 @@ class _AddGameState extends State<AddGame> {
     return null;
   }
 
+  Widget errorText({required String errorMessage}) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        errorMessage,
+        style: TextStyle(
+          color: Colors.red[700],
+          fontSize: 12,
+        ),
+      ),
+    );
+  }
+
   String? imageUrl;
 
-  bool showImageUploadError = false;
+  bool showErrorMessage = false;
 
   String? _gameCategory;
 
@@ -57,8 +71,6 @@ class _AddGameState extends State<AddGame> {
   final TextEditingController descriptionController = TextEditingController();
 
   final TextEditingController gameUrlController = TextEditingController();
-
-  final TextEditingController urlController = TextEditingController();
 
   addGame(
     String gameName,
@@ -111,13 +123,19 @@ class _AddGameState extends State<AddGame> {
   }
 
   @override
+  void dispose() {
+    minpController.dispose();
+    maxpController.dispose();
+    nameController.dispose();
+    descriptionController.dispose();
+    gameUrlController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<String> gameCategory = [
-      "Among Us",
-      "Mini Militia",
-      "Skribbl.io",
-      "FPS"
-    ];
+    
     return SafeArea(
       child: Scaffold(
         appBar: getAppbar(
@@ -201,11 +219,36 @@ class _AddGameState extends State<AddGame> {
                   const SizedBox(
                     height: 5,
                   ),
-                  DropDownButton(
-                    items: gameCategory,
-                    onDropDownValueCallback: (String value) {
-                      _gameCategory = value;
-                    },
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GameDropDownButton(
+                          height: 48,
+                          width: 369,
+                          borderColor: Colors.white30,
+                          fillColor: Color(0xff292333),
+                          borderRadius: BorderRadius.circular(8),
+                          borderWidth: 2,
+                          hintText: const HintText(
+                              hintText: "Choose the category of game"),
+                      
+                          icon: SvgPicture.asset(
+                            "assets/icons/arrow_down1.svg",
+                          ),
+                          onDropDownValueCallback: (String value) {
+                            _gameCategory = value;
+
+                            setState(() {
+                              showErrorMessage == false;
+                            });
+                          },
+                          errorOccured: (_gameCategory == null &&
+                              showErrorMessage == true)),
+                      if (_gameCategory == null && showErrorMessage == true)
+                        errorText(
+                          errorMessage: 'Please Select Category',
+                        )
+                    ],
                   ),
                   const SizedBox(
                     height: 41,
@@ -215,27 +258,20 @@ class _AddGameState extends State<AddGame> {
                     children: [
                       Upload(
                         onSelectImage: (String imagepath) {
-                          Logger().w('IMAGE PATH IS ${imagepath}');
+                          Logger().w('IMAGE PATH IS $imagepath');
                           imageUrl = imagepath;
                           setState(
                             () {
-                              showImageUploadError = false;
+                              showErrorMessage = false;
                             },
                           );
                         },
-                        erroroccured:
-                            (imageUrl == null && showImageUploadError == true),
+                        errorOccured:
+                            (imageUrl == null && showErrorMessage == true),
                       ),
-                      if (imageUrl == null && showImageUploadError == true)
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            'Please Upload Image',
-                            style: TextStyle(
-                              color: Colors.red[700],
-                              fontSize: 12,
-                            ),
-                          ),
+                      if (imageUrl == null && showErrorMessage == true)
+                        errorText(
+                          errorMessage: 'Please Upload Image',
                         )
                     ],
                   ),
@@ -247,7 +283,7 @@ class _AddGameState extends State<AddGame> {
                       buttonText: "Submit",
                       buttonAction: () {
                         setState(() {
-                          showImageUploadError = true;
+                          showErrorMessage = true;
                         });
                         final String gameName = nameController.text;
                         final String gameDescription =

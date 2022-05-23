@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? authToken = SharedPrefUtils.getLoginDetails();
-    // SharedPrefUtils.clear();
+ // SharedPrefUtils.clear();
     return MaterialApp(
       theme: getApplicationTheme(),
       debugShowCheckedModeBanner: false,

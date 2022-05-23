@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class ColorManager {
-  static Color primary = dark_violet;
+  static Color primary = darkViolet;
   static Color primaryWithOpacity70 = HexColor.fromHex("#B3ED9728");
   static Color darkGrey = HexColor.fromHex("#525252");
   static Color grey = HexColor.fromHex("#737477");
@@ -14,7 +14,7 @@ class ColorManager {
   static Color grey3 = HexColor.fromHex("#FEFEFE");
   static Color white = HexColor.fromHex("#FFFFFF");
   static Color error = HexColor.fromHex("#e61f32");
-  static Color dark_violet = HexColor.fromHex('#1A121E');
+  static Color darkViolet = HexColor.fromHex('#1A121E');
 }
 
 extension HexColor on Color {

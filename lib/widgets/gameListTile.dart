@@ -4,19 +4,22 @@ import 'package:fidigames/models/dislike_model.dart';
 import 'package:fidigames/models/game_list_detail.dart';
 import 'package:fidigames/models/like_model.dart';
 import 'package:fidigames/resources/strings_manager.dart';
+import 'package:fidigames/screens/game_list.dart';
 import 'package:fidigames/utils/shared_pref_utils.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:like_button/like_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../resources/text_styles_manager.dart';
 import '../resources/values_manager.dart';
 
 class GameListTile extends StatefulWidget {
   final GameDetail gameDetail;
 
-  GameListTile({required this.gameDetail});
+  GameListTile({Key? key, required this.gameDetail}) : super(key: key);
 
   @override
   State<GameListTile> createState() => _GameListTileState();
@@ -156,7 +159,6 @@ class _GameListTileState extends State<GameListTile> {
                     getLike();
                   }
 
-                
                   return !isLiked;
                 },
               ),
@@ -164,7 +166,15 @@ class _GameListTileState extends State<GameListTile> {
                 width: 22,
               ),
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: ()  {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WebView(
+                          initialUrl: widget.gameDetail.gameUrl,
+                        ),
+                      ));
+                },
                 icon: SvgPicture.asset(
                   "assets/icons/play_button.svg",
                 ),
